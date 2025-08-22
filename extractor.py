@@ -43,8 +43,8 @@ def extract_data(
     metadata: tuple
 ):
     df = pd.read_excel(
-        r"C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\source_data\Acinetobacter, Tables 3-21 to 3-25.xlsx",
-        sheet_name="Table 3.21",
+        file_path,
+        sheet_name=table,
         skipfooter=3,
         skiprows=3,
         usecols=COLS
