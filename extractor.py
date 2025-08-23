@@ -24,7 +24,7 @@ def extract_metadata(
 
     organism = metadata.split('.', 1)[0]
     
-    pattern = r'to (.*?) \(%R\)'
+    pattern = r'to (.*?) \(%(?:R|IR)\)'
     drug = re.search(pattern, metadata).group(1)
 
     col_names = md_df.iloc[3,:]
