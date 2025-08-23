@@ -6,13 +6,15 @@ import pandas as pd
 YEARS = [2012, 2013, 2014, 2015]
 START_ITEM = 'Country'
 COLS = [0, 1, 2, 4, 5, 7, 8, 10, 11]
-EXCLUDED_TABLES = ['Table 3.25', 'Table 3.7', ' Table 3.13', 'Table 3.20']
+EXCLUDED_TABLES = ['Table 3.25', 'Table 3.7', 'Table 3.13', 'Table 3.20']
 DIR_PATH = r'C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\source_data'
 
 def extract_metadata(
     file_path: str,
     table: str
 ):
+    print(file_path)
+    print(table)
     md_df = pd.read_excel(
         file_path,
         sheet_name=table,
@@ -24,11 +26,16 @@ def extract_metadata(
 
     organism = metadata.split('.', 1)[0]
     
-    pattern = r'to (.*?) \((?:%(?:R|IR)|MRSA)\)'
+    pattern = r'to (.*?)(?=( \(%R\)| \(%IR\)| \(MRSA\)|\) including))'
+
     drug = re.search(pattern, metadata).group(1)
 
-    col_names = md_df.iloc[3,:]
-    col_names = [col_name.strip() for col_name in col_names]
+    try:
+        col_names = md_df.iloc[3,:]
+        col_names = [col_name.strip() for col_name in col_names]
+    except:
+        col_names = md_df.iloc[4,:]
+        col_names = [col_name.strip() for col_name in col_names]
     new_names = [START_ITEM]
     for year in YEARS:
         for name in col_names[1:3]:
@@ -72,6 +79,10 @@ def main():
             if sheet not in EXCLUDED_TABLES:
                 metadata = extract_metadata(file_path, sheet)
                 df_lst.append(extract_data(file_path, sheet, metadata))
+
+    df = pd.concat(df_lst)
+
+    df.to_csv('output.csv', index=False)
 
 if __name__ == '__main__':
     main()
