@@ -70,6 +70,8 @@ def extract_data(
         value_name='Value'
     )
 
+    df['Country'] = df['Country'].str.replace('Slovak Republic', 'Slovakia')
+
     df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
 
     df['Organism'] = metadata[1]
