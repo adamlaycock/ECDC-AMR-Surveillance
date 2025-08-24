@@ -70,7 +70,6 @@ def extract_data(
         value_name='Value'
     )
 
-
     df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
 
     df['Organism'] = metadata[1]
