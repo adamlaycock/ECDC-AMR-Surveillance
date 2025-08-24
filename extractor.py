@@ -75,6 +75,8 @@ def extract_data(
     df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
 
     df[['Metric', 'Year']] = df['MetricYear'].str.split('_', expand=True)
+    df = df.drop(columns='MetricYear')
+
     df['Organism'] = metadata[1]
     df['Drug'] = metadata[2]
 
