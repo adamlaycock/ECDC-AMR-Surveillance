@@ -9,7 +9,7 @@ COLS = [0, 1, 2, 4, 5, 7, 8, 10, 11]
 EXCLUDED_TABLES = ['Table 3.25', 'Table 3.7', 'Table 3.13', 'Table 3.20']
 DIR_PATH = r'C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\source_data'
 VALID_ROWS = [
-    'Austria', 'Belgium', 'Bulgaria','Country','Croatia', 'Cyprus',
+    'Austria', 'Belgium', 'Bulgaria','Croatia', 'Cyprus',
     'Czech Republic', 'Denmark','Estonia', 'Finland', 'France', 'Germany',
     'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Lithuania',
     'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal',
