@@ -8,13 +8,18 @@ START_ITEM = 'Country'
 COLS = [0, 1, 2, 4, 5, 7, 8, 10, 11]
 EXCLUDED_TABLES = ['Table 3.25', 'Table 3.7', 'Table 3.13', 'Table 3.20']
 DIR_PATH = r'C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\source_data'
+VALID_ROWS = [
+    'Austria', 'Belgium', 'Bulgaria','Country','Croatia', 'Cyprus',
+    'Czech Republic', 'Denmark','Estonia', 'Finland', 'France', 'Germany',
+    'Greece', 'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Lithuania',
+    'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal',
+    'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom'
+ ]
 
 def extract_metadata(
     file_path: str,
     table: str
 ):
-    print(file_path)
-    print(table)
     md_df = pd.read_excel(
         file_path,
         sheet_name=table,
@@ -27,7 +32,6 @@ def extract_metadata(
     organism = metadata.split('.', 1)[0]
     
     pattern = r'to (.*?)(?=( \(%R\)| \(%IR\)| \(MRSA\)|\) including))'
-
     drug = re.search(pattern, metadata).group(1)
 
     try:
@@ -52,10 +56,11 @@ def extract_data(
     df = pd.read_excel(
         file_path,
         sheet_name=table,
-        skipfooter=3,
-        skiprows=3,
+        header=None,
         usecols=COLS
     )
+    df = df[df[0].isin(VALID_ROWS)].reset_index(drop=True)
+    df = df.dropna(subset=[7, 8, 10, 11], how='all')
 
     df.columns = metadata[0]
 
@@ -64,6 +69,9 @@ def extract_data(
         var_name='MetricYear',
         value_name='Value'
     )
+
+
+    df['Value'] = pd.to_numeric(df['Value'], errors='coerce')
 
     df['Organism'] = metadata[1]
     df['Drug'] = metadata[2]
@@ -81,8 +89,7 @@ def main():
                 df_lst.append(extract_data(file_path, sheet, metadata))
 
     df = pd.concat(df_lst)
-
-    df.to_csv('output.csv', index=False)
+    df.to_csv('amr_output.csv', index=False)
 
 if __name__ == '__main__':
     main()
