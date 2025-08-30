@@ -7,7 +7,7 @@ YEARS = [2012, 2013, 2014, 2015]
 START_ITEM = 'Country'
 COLS = [0, 1, 2, 4, 5, 7, 8, 10, 11]
 EXCLUDED_TABLES = ['Table 3.25', 'Table 3.7', 'Table 3.13', 'Table 3.20']
-DIR_PATH = r'C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\2012-2015 Report\source_data'
+DIR_PATH = r'C:\Users\adamm\OneDrive\Documents\VSC\Projects\ECDC AMR Surveillance\source_data'
 VALID_ROWS = [
     'Austria', 'Belgium', 'Bulgaria','Croatia', 'Cyprus',
     'Czech Republic', 'Denmark','Estonia', 'Finland', 'France', 'Germany',
